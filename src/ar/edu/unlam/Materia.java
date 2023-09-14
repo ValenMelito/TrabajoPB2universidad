@@ -5,14 +5,17 @@ import java.util.ArrayList;
 public class Materia {
 
 	private String nombre;
+	private Integer codigoDeMateria;
 	private ArrayList<Curso> arrayDeCurso = new ArrayList<>();
 	
-	public Materia(String nombre) {
+	
+	public Materia(String nombre, Integer codigoDeMateria) {
 		this.nombre = nombre;
+		this.codigoDeMateria=codigoDeMateria;
 		
 	}
 	
-	public String getNombre() {
+	public String getNombreMateria() {
 		return nombre;
 	}
 
@@ -20,6 +23,16 @@ public class Materia {
 		this.nombre = nombre;
 	}
 	
+	
+	public Integer getCodigoDeMateria() {
+		return codigoDeMateria;
+	}
+
+	public void setCodigoDeMateria(Integer codigoDeMateria) {
+		this.codigoDeMateria = codigoDeMateria;
+	}
+	
+
 	public void ingresarCurso(Curso curso){
 		this.arrayDeCurso.add(curso);
 	}
@@ -41,12 +54,7 @@ public class Materia {
 		
 		return identificadorDeCurso;
 	}
-	
-	
-	
-	
-	
-	
+
 	
 	
 }
