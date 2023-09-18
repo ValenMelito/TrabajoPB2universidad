@@ -7,7 +7,7 @@ public class Materia {
 	private String nombre;
 	private Integer codigoDeMateria;
 	private ArrayList<Curso> arrayDeCurso = new ArrayList<>();
-	
+	private ArrayList<Materia> arrayDeMateriasCorrelativas = new ArrayList<>();
 	
 	public Materia(String nombre, Integer codigoDeMateria) {
 		this.nombre = nombre;
@@ -40,21 +40,31 @@ public class Materia {
 	public Integer getCantidadDeCursos(){
 		return this.arrayDeCurso.size();
 	}
-
-	public String getNombreDeCursoEspecifico(Integer lugarDelArray) {
-		// TODO Auto-generated method stub
-		String identificadorDeCurso=this.arrayDeCurso.get(lugarDelArray).getNombreMateria();
+	
+	public Materia buscarMateriaCorrelativaPorCodigoDeMateria(Integer codigoDeMateriaCorrelativa) {
+		Materia materiaBuscada=null;
+		for(int i=0; i<this.arrayDeMateriasCorrelativas.size(); i++) {
+			if(this.arrayDeMateriasCorrelativas.get(i).getCodigoDeMateria().equals(codigoDeMateriaCorrelativa)){
+				materiaBuscada=this.arrayDeMateriasCorrelativas.get(i);
+			}
+		}
 		
-		return identificadorDeCurso;
+		return materiaBuscada;
+		
+	}
+
+	public void ingresarMateriaCorrelativa(Materia materiaCorrelativa) {
+		this.arrayDeMateriasCorrelativas.add(materiaCorrelativa);
 	}
 	
-	public Integer getIdentificadorDeCursoEspecifico(Integer lugarDelArray) {
-		// TODO Auto-generated method stub
-		Integer identificadorDeCurso=this.arrayDeCurso.get(lugarDelArray).getCodigoCurso();
-		
-		return identificadorDeCurso;
+	public Integer cantidadDeMateriasCorrelativas(){
+		return this.arrayDeMateriasCorrelativas.size();
 	}
-
+	
+	public void eliminarMateriaCorrelativaPorCodigoDeMateria(Integer codigoDeMateriaCorrelativa) {
+		Materia materiaAEliminar=buscarMateriaCorrelativaPorCodigoDeMateria(codigoDeMateriaCorrelativa);
+		this.arrayDeMateriasCorrelativas.remove(materiaAEliminar);
+	}
 	
 	
 }

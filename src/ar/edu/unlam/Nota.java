@@ -9,15 +9,13 @@ public class Nota {
 		this.valor = 0;
 	}
 
-
 	public Integer getValor() {;
 		return this.valor;
 	}
 
-
 	public void asignarValor(Integer nuevoValor) {
 		// TODO Auto-generated method stub
-		if(nuevoValor>=1 || nuevoValor<=10) {
+		if(nuevoValor>0 && nuevoValor<11) {
 			this.valor=nuevoValor;
 		}
 	}

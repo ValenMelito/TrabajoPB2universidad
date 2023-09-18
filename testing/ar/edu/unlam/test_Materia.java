@@ -18,7 +18,23 @@ public class test_Materia {
 		
 		assertEquals(nombre, materia.getNombreMateria());
 	}
+	
+	@Test
+	public void queNoHaya2MateriasMismoConElMismoID(){
+		Materia materia1 = new Materia ("pb2", 2324);
+		Materia materia2 = new Materia ("pb1", 2324);
+		Universidad unlam = new Universidad("unlam");
+		
+		unlam.ingresarMateria(materia1);
+		unlam.ingresarMateria(materia2);
+		
+		Integer ve=1;
+		Integer vo=unlam.cantidadMaterias();
+		
+		assertEquals(ve,vo);
 
+	}
+	
 	@Test// varios cursos dentro de una materia
 	public void quePorCadaMateriaHayaVariosCursos() {
 		String nombre = "Pb2";
@@ -31,7 +47,7 @@ public class test_Materia {
 		Integer numeroDeAula=206;
 		for(int i=0; i<cantidadCursos; i++) {
 			
-			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,"activo");
+			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
 			pb2.ingresarCurso(cursos);
 			//otro curso diferente
 			codigoCurso=1500;
@@ -46,69 +62,13 @@ public class test_Materia {
 	
 	
 	@Test
-	public void verificarQueNoSeRepitaElCodigoDeLaMateria() {
-		String nombre = "Pb2";
-		Integer codigoDeMateria=2623;
-		Integer cantidadCursos=2;
-		
-		//inicializacion del Curso
-		Materia pb2 = new Materia (nombre, codigoDeMateria);
-		Integer codigoCurso = 2006;
-		String turno = "mañana";
-		Integer numeroDeAula=206;
-		//creo 2 cursos con diferentes variables
-		for(int i=0; i<cantidadCursos; i++) {
-			
-			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,"activo");
-			pb2.ingresarCurso(cursos);
-			//otro curso diferente
-			codigoCurso--;//2005
-			turno="tarde";
-			numeroDeAula--;//205
-		}
-		
-		Integer codigoDeCurso1=pb2.getIdentificadorDeCursoEspecifico(0);
-		Integer codigoDeCurso2=pb2.getIdentificadorDeCursoEspecifico(1);
-		assertTrue(codigoDeCurso1>codigoDeCurso2);
-
-	}
-	
-	@Test
-	public void verificarQueNoSeRepitanLasMaterias() {
-		String nombreMateria1 = "Pb2";
-		String nombreMateria2 = "Ingles Tecnico 2";
-		
-		Integer codigoDeMateria1=2623;
-		Integer codigoDeMateria2=2627;
-		
-		Integer cantidadCursos=2;
-		//inicializacion del Curso
-		Materia pb2 = new Materia (nombreMateria1,codigoDeMateria1);
-		Materia it2 = new Materia (nombreMateria2, codigoDeMateria2);
-		
-		Integer codigoCurso = 2006;
-		String turno = "mañana";
-		Integer numeroDeAula=206;
-		
-		Curso cursosPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,"activo");
-		pb2.ingresarCurso(cursosPB2);
-		Curso cursosMB = new Curso(codigoCurso,it2.getNombreMateria(),turno,1,numeroDeAula,"activo");
-		it2.ingresarCurso(cursosMB);
-		
-		String nombreDeCurso1=pb2.getNombreDeCursoEspecifico(0);
-		String nombreDeCurso2=it2.getNombreDeCursoEspecifico(0);
-		assertFalse(nombreDeCurso1==nombreDeCurso2);
-
-	}
-	
-	@Test
 	public void verificarQueHaya1ProfesorCada20Chicos() {
 		Materia pb2 = new Materia ("programacion basica 2",2623);
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
 		
-		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula, "activo");
+		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
 		pb2.ingresarCurso(cursoPB2);
 		
 		Profesor profesorPB2 = new Profesor("Monteagudo", "JuanMa", 31577809);
@@ -129,15 +89,15 @@ public class test_Materia {
 			cursoPB2.ingresarAlumno(alumno1);
 		}
 		
-		String valorObtenido =cursoPB2.verificarEstadoDelCurso(cursoPB2);
+		boolean valorObtenido =cursoPB2.verificarEstadoDelCurso(cursoPB2);
 		
-		assertEquals("activo",valorObtenido);
+		assertEquals(true,valorObtenido);
 		
 	}
 	
 	
 	@Test
-	public void queUnProfesorSeRepitaEn2CusosAlMismoHorario(){
+	public void queUnProfesorNoSeRepitaEn2CusosAlMismoHorario(){
 		Universidad unlam = new Universidad("unlam");
 		String nombreMateria1 = "Pb2";
 		String nombreMateria2 = "Ingles Tecnico 2";
@@ -157,18 +117,63 @@ public class test_Materia {
 		Integer numeroDeAula=206;
 		
 		//inicializacion de cursos
-		Curso cursosPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,"activo");
-		pb2.ingresarCurso(cursosPB2);
-		Curso cursosMB = new Curso(codigoCurso,it2.getNombreMateria(),turno,1,numeroDeAula,"activo");
-		it2.ingresarCurso(cursosMB);
+		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		pb2.ingresarCurso(cursoPB2);
+		Curso cursoMB = new Curso(codigoCurso,it2.getNombreMateria(),turno,1,numeroDeAula,true);
+		it2.ingresarCurso(cursoMB);
 		
 		Profesor profesorPB2 = new Profesor("Monteagudo", "JuanMa", 31577809);
-		cursosPB2.ingresarProfesor(profesorPB2);
+//		cursoPB2.ingresarProfesor(profesorPB2);
+//		cursoMB.ingresarProfesor(profesorPB2);
+		profesorPB2.ingresarCurso(cursoMB);
+		profesorPB2.ingresarCurso(cursoPB2);
 		
+		Integer ve=1;
+		Integer vo=profesorPB2.getCantidadDeCursos();
+			
+		assertEquals(ve,vo);
+	}
+	
+	@Test
+	public void queSePuedanIngresarMateriasCorrelativas(){
+		String nombreMateria1 = "Pb2";
+		String nombreMateria2 = "Pb1";
 		
+		Integer codigoDeMateria1=2623;
+		Integer codigoDeMateria2=2627;
+		
+		//inicializacion de materias
+		Materia pb2 = new Materia (nombreMateria1,codigoDeMateria1);
+		Materia pb1 = new Materia (nombreMateria2, codigoDeMateria2);
+		
+		pb2.ingresarMateriaCorrelativa(pb1);
+		Integer ve=1;
+		Integer vo=pb2.cantidadDeMateriasCorrelativas();
+		
+		assertEquals(ve,vo);
 		
 	}
 	
-	 
+	@Test
+	public void queSePuedaEliminarMateriasCorrelativas(){
+		String nombreMateria1 = "Pb2";
+		String nombreMateria2 = "Pb1";
+		
+		Integer codigoDeMateria1=2623;
+		Integer codigoDeMateria2=2627;
+		
+		//inicializacion de materias
+		Materia pb2 = new Materia (nombreMateria1,codigoDeMateria1);
+		Materia pb1 = new Materia (nombreMateria2, codigoDeMateria2);
+		
+		pb2.ingresarMateriaCorrelativa(pb1);
+		pb2.eliminarMateriaCorrelativaPorCodigoDeMateria(codigoDeMateria2);
+		
+		Integer ve=0;
+		Integer vo=pb2.cantidadDeMateriasCorrelativas();
+		
+		assertEquals(ve,vo);
+		
+	}
 	
 }

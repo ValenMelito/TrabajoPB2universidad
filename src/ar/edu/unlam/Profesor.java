@@ -6,14 +6,14 @@ public class Profesor {
 	
 	private String apellido;
 	private String nombre;
-	private Integer dniProfesor;
+	private Integer Dni;
 	private ArrayList<Curso> cursoQueEnseña= new ArrayList<>();
 
-	public Profesor(String apellido, String nombre, Integer dniProfesor) {
+	public Profesor(String apellido, String nombre, Integer Dni) {
 		// TODO Auto-generated constructor stub
 		this.apellido = apellido;
 		this.nombre = nombre;
-		this.dniProfesor = dniProfesor;
+		this.Dni = Dni;
 	}
 
 
@@ -37,17 +37,29 @@ public class Profesor {
 	}
 
 
-	public Integer getDniProfesor() {
-		return dniProfesor;
+	public Integer getDni() {
+		return Dni;
 	}
 
 
-	public void setDniProfesor(Integer dniProfesor) {
-		this.dniProfesor = dniProfesor;
+	public void setDni(Integer dniProfesor) {
+		this.Dni = dniProfesor;
 	}
 	
-	public void ingresarCurso(Curso curso){
-		this.cursoQueEnseña.add(curso);
+	//registramos que el profe no puede ingresar si ya tiene una materia en ese dia y horario
+	public boolean ingresarCurso(Curso curso){
+		boolean pudoRegistrarse=false;
+		if(this.cursoQueEnseña.size()==0) {
+			this.cursoQueEnseña.add(curso);
+			pudoRegistrarse=true;
+		}
+		for(int i=0; i<this.cursoQueEnseña.size(); i++){
+			if((this.cursoQueEnseña.get(i).getTurno()!=curso.getTurno())){
+				this.cursoQueEnseña.add(curso);
+				pudoRegistrarse=true;
+			}
+		}
+		return pudoRegistrarse;
 	}
 	
 	public Integer getCantidadDeCursos(){

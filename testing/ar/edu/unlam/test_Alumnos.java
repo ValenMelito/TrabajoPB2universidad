@@ -13,7 +13,7 @@ public class test_Alumnos {
 		Integer dni=43408686;
 		//ejecucion
 		
-		Alumno alumno = new Alumno(dni, apellido, nombre);
+		Alumno alumno = new Alumno(dni, apellido, nombre, 22222222, 11/12/20023);
 		
 		
 		//validacion

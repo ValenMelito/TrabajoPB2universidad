@@ -4,22 +4,22 @@ package ar.edu.unlam;
 public class Cursada {
 
 	private Alumno alumno;
-	private Materia materia;
+	private Curso curso;
 	private Nota nota; 
 
-	public Cursada(Alumno alumno, Materia materia, Nota nota) {
+	public Cursada(Alumno alumno, Curso curso, Nota nota) {
 		this.alumno=alumno;
-		this.materia=materia;
+		this.curso=curso;
 		this.nota=nota;
 	}
 
-	public Cursada(Alumno alumno, Materia materia) {
+	public Cursada(Alumno alumno, Curso curso){
 		this.alumno=alumno;
-		this.materia=materia;
+		this.curso=curso;
 		this.nota= new Nota();
 	}
 
-
+	
 	public Alumno getAlumno() {
 		return alumno;
 	}
@@ -28,12 +28,12 @@ public class Cursada {
 		this.alumno = alumno;
 	}
 
-	public Materia getMateria() {
-		return materia;
+	public String getMateria() {
+		return curso.getNombreMateria();
 	}
 
-	public void setMateria(Materia materia) {
-		this.materia = materia;
+	public void setMateria(String nombreMateria) {
+		this.curso.setNombreMateria(nombreMateria);
 	}
 
 	public Nota getNota() {
@@ -42,13 +42,10 @@ public class Cursada {
 
 	public void setNota(Nota nota) {
 		this.nota = nota;
-	}
+	}	
 
 	public void calificar(Integer valor) {
-		
 		nota.asignarValor(valor);
-		
-		
 	}
 
 	

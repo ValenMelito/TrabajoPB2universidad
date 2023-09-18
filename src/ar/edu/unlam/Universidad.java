@@ -21,11 +21,28 @@ public class Universidad {
 		
 		
 	}
-
-	public void ingresarAlumno(Alumno alumnoAIngresar) {
-		this.arrayAlumnos.add(alumnoAIngresar);
-
+	//registramos que no se registren dos personas con el mismo dni
+	public boolean ingresarAlumno(Alumno alumnoAIngresar) {
+		boolean pudoIngresar=false;
+		boolean duplicado=false;
+		
+		if(arrayAlumnos.size()==0) {
+			this.arrayAlumnos.add(alumnoAIngresar);
+			pudoIngresar=true;
+		}
+		
+		for(int i=0; i<this.arrayAlumnos.size(); i++){
+			if(this.arrayAlumnos.get(i).getDni().equals(alumnoAIngresar.getDni())){
+				duplicado=true;
+			}
+		}
+		
+		if(!duplicado) {
+			this.arrayAlumnos.add(alumnoAIngresar);
+		}
+		return pudoIngresar;
 	}
+	
 	
 	public Integer alumnosTotales(){
 		return arrayAlumnos.size();
@@ -42,8 +59,25 @@ public class Universidad {
 		
 	}
 	
-	public void ingresarProfesor(Profesor profesorAIngresar) {
-		this.arrayProfesores.add(profesorAIngresar);
+	public boolean ingresarProfesor(Profesor profesorAIngresar){
+		boolean pudoIngresar=false;
+		boolean duplicado=false;
+		
+		if(arrayProfesores.size()==0) {
+			this.arrayProfesores.add(profesorAIngresar);
+			pudoIngresar=true;
+		}
+		
+		for(int i=0; i<this.arrayProfesores.size(); i++){
+			if(this.arrayProfesores.get(i).getDni().equals(profesorAIngresar.getDni())){
+				duplicado=true;
+			}
+		}
+		
+		if(!duplicado) {
+			this.arrayProfesores.add(profesorAIngresar);
+		}
+		return pudoIngresar;
 	}
 	
 	
@@ -54,16 +88,12 @@ public class Universidad {
 	public Profesor buscarProfesorPorDni(Integer dniProfesor){
 		Profesor alumnoBuscadoPorDni=null;
 		for(int i=0; i<arrayProfesores.size(); i++) {
-			if(arrayProfesores.get(i).getDniProfesor().equals(dniProfesor)) {
+			if(arrayProfesores.get(i).getDni().equals(dniProfesor)) {
 				alumnoBuscadoPorDni=arrayProfesores.get(i);
 			}
 		}
 		return alumnoBuscadoPorDni;
 		
-	}
-	
-	public boolean estaElHorarioDisponibleParaProfesor(String dia, String turno) {
-		return false;
 	}
 	
 	public void ingresarAula(Aula aula) {
@@ -77,10 +107,28 @@ public class Universidad {
 
 	}
 	
-	public void ingresarMateria(Materia nuevaMateria) {
-		this.arrayMaterias.add(nuevaMateria);
-
+	public boolean ingresarMateria(Materia nuevaMateria) {
+		boolean pudoIngresar=false;
+		boolean codigoDuplicado=false;
+		
+		if(arrayMaterias.size()==0) {
+			this.arrayMaterias.add(nuevaMateria);
+			pudoIngresar=true;
+		}
+		
+		for(int i=0; i<this.arrayMaterias.size(); i++){
+			if(this.arrayMaterias.get(i).getCodigoDeMateria().equals(nuevaMateria.getCodigoDeMateria())){
+				codigoDuplicado=true;
+			}
+		}
+		
+		if(codigoDuplicado==false){
+			this.arrayMaterias.add(nuevaMateria);
+		}
+		
+		return pudoIngresar;
 	}
+	
 
 	public Integer cantidadMaterias() {	
 		return this.arrayMaterias.size();
@@ -97,4 +145,32 @@ public class Universidad {
 		return materiaBuscadoPorCodigo;
 		
 	}
+	
+	public boolean ingresarMateriaCorrelativa(Integer idMateria, Integer idMateriaCorrelativa){
+		boolean seEncontraronLasMaterias=false;
+		Materia materiaBuscada=buscarMateriaPorCodigo(idMateria);
+		Materia materiaBuscadaParaCorrelativa=buscarMateriaPorCodigo(idMateriaCorrelativa);
+		
+		if(materiaBuscadaParaCorrelativa != null && materiaBuscada!= null) {
+			seEncontraronLasMaterias=true;
+			materiaBuscada.ingresarMateriaCorrelativa(materiaBuscadaParaCorrelativa);
+		}
+		
+		return seEncontraronLasMaterias;
+	}
+	
+	
+	public Boolean EliminarCorrelativa(Integer idMateria, Integer idMateriaCorrelativa){
+		Boolean seEliminoCorrectamente=false;
+		Materia materia = this.buscarMateriaPorCodigo(idMateria);
+		Materia materiaAEliminar = this.buscarMateriaPorCodigo(idMateriaCorrelativa);
+		
+		if (materiaAEliminar != null && materia != null) {
+			materia.eliminarMateriaCorrelativaPorCodigoDeMateria(idMateriaCorrelativa);
+			seEliminoCorrectamente=true;
+		}
+		return seEliminoCorrectamente;
+	}
+	
+	
 }
