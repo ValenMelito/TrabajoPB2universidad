@@ -2,6 +2,8 @@ package ar.edu.unlam;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 public class test_Universidad {
@@ -14,10 +16,13 @@ public class test_Universidad {
 	
 	@Test
 	public void ingresarAlumnosALaUniversidad(){
+		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
+		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
+		
 		Universidad unlam = new Universidad("unlam");
-		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo");
-		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria");
-		Alumno alumno3 = new Alumno(43408686, "Pascal", "Pedro");
+		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo",fechaDeIngreso,fechaDeNacimiento);
+		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria",fechaDeIngreso,fechaDeNacimiento);
+		Alumno alumno3 = new Alumno(43408686, "Pascal", "Pedro",fechaDeIngreso,fechaDeNacimiento);
 		
 		unlam.ingresarAlumno(alumno1);
 		unlam.ingresarAlumno(alumno2);
@@ -34,10 +39,13 @@ public class test_Universidad {
 	
 	@Test
 	public void buscarAlumnoPorDni() {
+		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
+		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
+		
 		Universidad unlam = new Universidad("unlam");
-		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo");
-		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria");
-		Alumno alumno3 = new Alumno(39701456, "Pascal", "Pedro");
+		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo",fechaDeNacimiento,fechaDeIngreso);
+		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria",fechaDeNacimiento,fechaDeIngreso);
+		Alumno alumno3 = new Alumno(39701456, "Pascal", "Pedro",fechaDeNacimiento,fechaDeIngreso);
 		
 		unlam.ingresarAlumno(alumno1);
 		unlam.ingresarAlumno(alumno2);
@@ -96,7 +104,7 @@ public class test_Universidad {
 		
 		
 		Boolean ve=true;
-		Boolean vo=unlam.EliminarCorrelativa(codigoDeMateria1, codigoDeMateria2);
+		Boolean vo=unlam.eliminarCorrelativa(codigoDeMateria1, codigoDeMateria2);
 		assertEquals(ve,vo);
 		
 	}
@@ -132,7 +140,7 @@ public class test_Universidad {
 		
 		unlam.ingresarMateriaCorrelativa(pb2.getCodigoDeMateria(), pb1.getCodigoDeMateria());
 		
-		unlam.EliminarCorrelativa(pb2.getCodigoDeMateria(), pb1.getCodigoDeMateria());
+		unlam.eliminarCorrelativa(pb2.getCodigoDeMateria(), pb1.getCodigoDeMateria());
 		
 		Integer ve=0;
 		Integer vo=pb2.cantidadDeMateriasCorrelativas();
@@ -140,5 +148,7 @@ public class test_Universidad {
 		assertEquals(ve,vo);
 		
 	}
+	
+	
 	
 }

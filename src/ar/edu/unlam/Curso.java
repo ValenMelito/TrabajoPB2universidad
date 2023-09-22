@@ -74,14 +74,53 @@ public class Curso {
 		// TODO Auto-generated method stub
 		arrayDeProfesores.add(profesor);
 	}
+	
+    public ArrayList<Alumno> getArrayDeAlumnos() {
+        return arrayDeAlumnos;
+    }
 
-	public void ingresarAlumno(Alumno alumno) {
-		// TODO Auto-generated method stub
-		arrayDeAlumnos.add(alumno);
+	//registramos que no se registren dos personas con el mismo dni
+	public boolean ingresarAlumno(Alumno alumnoAIngresar) {
+		//TODO Auto-generated method stub
+		boolean pudoIngresar=false;
+		boolean duplicado=false;
+		
+		if(alumnoRegistrado(alumnoAIngresar)==true) {
+			duplicado=true;
+		}
+		
+		if(arrayDeAlumnos.size()==0 || !duplicado) {
+			this.arrayDeAlumnos.add(alumnoAIngresar);
+			pudoIngresar=true;
+		}
+
+		return pudoIngresar;
 	}
 	
-	public Integer cantidadDeAlumnosEnCurso(){
+	
+	public Integer alumnosTotales(){
 		return arrayDeAlumnos.size();
+	}
+	
+	public boolean alumnoRegistrado(Alumno alumno){
+		boolean existe=false;
+		Integer dniAlumno=alumno.getDni();
+		Alumno alumnoBuscado=buscarAlumnoPorDni(dniAlumno);
+		if(alumnoBuscado!=null) {
+			existe=true;
+		}
+		return existe;
+		
+	}
+	public Alumno buscarAlumnoPorDni(Integer dniAlumno){
+		Alumno alumnoBuscadoPorDni=null;
+		for(int i=0; i<arrayDeAlumnos.size(); i++) {
+			if(arrayDeAlumnos.get(i).getDni().equals(dniAlumno)) {
+				alumnoBuscadoPorDni=arrayDeAlumnos.get(i);
+			}
+		}
+		return alumnoBuscadoPorDni;
+		
 	}
 	
 	public boolean getEstadoDelCurso() {

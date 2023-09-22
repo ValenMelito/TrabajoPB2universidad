@@ -32,9 +32,57 @@ public class Materia {
 		this.codigoDeMateria = codigoDeMateria;
 	}
 	
+    public ArrayList<Curso> getArrayDeCursos() {
+        return arrayDeCurso;
+    }
 
-	public void ingresarCurso(Curso curso){
-		this.arrayDeCurso.add(curso);
+	public boolean ingresarCurso(Curso curso){
+		boolean pudoIngresar=false;
+		boolean duplicado=false;
+		boolean estadoDelCurso=curso.getEstadoDelCurso();
+		
+		if(cursoRegistrado(curso)==true || horarioOcupado(curso)){
+			duplicado=true;
+		}
+		
+		if((getCantidadDeCursos()==0 || !duplicado) && estadoDelCurso==true){
+			this.arrayDeCurso.add(curso);
+			pudoIngresar=true;
+		}
+		
+		return pudoIngresar;
+	}
+	
+	
+	public boolean cursoRegistrado(Curso curso){
+		boolean existe=false;
+		Integer codigoDeCurso=curso.getCodigoCurso();
+		Curso cursoBuscadoPorCodigo=buscarCursoPorCodigo(codigoDeCurso);
+		if(cursoBuscadoPorCodigo!=null) {
+			existe=true;
+		}
+		return existe;
+		
+	}
+	public boolean horarioOcupado(Curso curso) {
+		
+		boolean horarioOcupado=false;
+		for(int i=0; i<getCantidadDeCursos(); i++){
+			if(this.arrayDeCurso.get(i).getTurno()==curso.getTurno()){
+				horarioOcupado=true;
+			}
+		}
+		return horarioOcupado;
+	}
+	
+	public Curso buscarCursoPorCodigo(Integer codigoDeCurso) {
+		Curso cursoBuscadoPorCodigo=null;
+		for(int i=0; i<getCantidadDeCursos(); i++){
+			if(this.arrayDeCurso.get(i).getCodigoCurso().equals(codigoDeCurso)){
+				cursoBuscadoPorCodigo=this.arrayDeCurso.get(i);
+			}
+		}
+		return cursoBuscadoPorCodigo;
 	}
 	
 	public Integer getCantidadDeCursos(){

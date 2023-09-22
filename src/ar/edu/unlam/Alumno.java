@@ -1,17 +1,18 @@
 package ar.edu.unlam;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Alumno {
 	
 	private String nombre;
 	private Integer dni;
 	private String apellido;
-	private Date fechaDeNacimiento;
-	private Date fechaDeIngreso;
+	private LocalDate fechaDeNacimiento;
+	private LocalDate fechaDeIngreso;
 	
 
-	public Alumno(Integer dni, String apellido, String nombre, Date fechaDeNacimiento, Date fechaDeIngreso){
+	public Alumno(Integer dni, String apellido, String nombre, LocalDate fechaDeNacimiento, LocalDate fechaDeIngreso){
 		this.dni=dni;
 		this.apellido=apellido;
 		this.nombre=nombre;
@@ -44,19 +45,19 @@ public class Alumno {
 		this.apellido = apellido;
 	}
 
-	public Date getFechaDeNacimiento() {
+	public LocalDate getFechaDeNacimiento() {
 		return fechaDeNacimiento;
 	}
 
-	public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+	public void setFechaDeNacimiento(LocalDate fechaDeNacimiento) {
 		this.fechaDeNacimiento = fechaDeNacimiento;
 	}
 
-	public Date getFechaDeIngreso() {
+	public LocalDate getFechaDeIngreso() {
 		return fechaDeIngreso;
 	}
 
-	public void setFechaDeIngreso(Date fechaDeIngreso) {
+	public void setFechaDeIngreso(LocalDate fechaDeIngreso) {
 		this.fechaDeIngreso = fechaDeIngreso;
 	}
 	

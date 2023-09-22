@@ -2,6 +2,8 @@ package ar.edu.unlam;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 import ar.edu.unlam.*;
@@ -37,26 +39,29 @@ public class test_Materia {
 	
 	@Test// varios cursos dentro de una materia
 	public void quePorCadaMateriaHayaVariosCursos() {
-		String nombre = "Pb2";
-		Integer codigoDeMateria=2623;
+		
 		Integer cantidadCursos=2;
 		//inicializacion del Curso
-		Materia pb2 = new Materia (nombre, codigoDeMateria);
+		Materia pb2 = new Materia ("Pb2", 2623);
+		
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		
 		for(int i=0; i<cantidadCursos; i++) {
-			
 			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
 			pb2.ingresarCurso(cursos);
 			//otro curso diferente
 			codigoCurso=1500;
 			turno="tarde";
 			numeroDeAula--;//205
+			
 		}
 		
+		Integer ve=2;
 		Integer vo=pb2.getCantidadDeCursos();
-		assertEquals(cantidadCursos,vo);
+		
+		assertEquals(ve,vo);
 
 	}
 	
@@ -67,14 +72,16 @@ public class test_Materia {
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
+		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
 		
 		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
 		pb2.ingresarCurso(cursoPB2);
 		
 		Profesor profesorPB2 = new Profesor("Monteagudo", "JuanMa", 31577809);
-		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo");
-		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria");
-		Alumno alumno3 = new Alumno(39701456, "Pascal", "Pedro");
+		Alumno alumno1 = new Alumno(43408686, "Martinez", "Ricardo",fechaDeNacimiento,fechaDeIngreso);
+		Alumno alumno2 = new Alumno(40890180, "Luana", "Maria",fechaDeNacimiento,fechaDeIngreso);
+		Alumno alumno3 = new Alumno(39701456, "Pascal", "Pedro",fechaDeNacimiento,fechaDeIngreso);
 		
 		
 		cursoPB2.ingresarProfesor(profesorPB2);
@@ -94,7 +101,26 @@ public class test_Materia {
 		assertEquals(true,valorObtenido);
 		
 	}
-	
+	@Test
+	public void verificarQueNoHayaCursosConElMismoHorarioParaLaMismaMateria() {
+			
+		Materia pb2 = new Materia ("programacion basica 2",2623);
+		String turno = "mañana";
+		Integer numeroDeAula=206;
+		
+		
+		Curso cursoPB2Tarde = new Curso(3300,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		Curso cursoPB2Mañana = new Curso(2829,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		
+		pb2.ingresarCurso(cursoPB2Mañana);
+		pb2.ingresarCurso(cursoPB2Tarde);
+		
+		//como se repite turno nada mas puede entrar el primero
+		Integer ve=1;
+		Integer vo=pb2.getCantidadDeCursos();
+		
+		assertEquals(ve,vo);	
+	}
 	
 	@Test
 	public void queUnProfesorNoSeRepitaEn2CusosAlMismoHorario(){

@@ -2,6 +2,8 @@ package ar.edu.unlam;
 
 import static org.junit.Assert.*;
 
+import java.time.LocalDate;
+
 import org.junit.Test;
 
 import ar.edu.unlam.*;
@@ -11,9 +13,10 @@ public class test_Cursada {
 
 	@Test
 	public void queSePuedaCrearUnaCursada() {
-		
+		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
+		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
 
-		Alumno alumno = new Alumno(22, "Juan", "perez");
+		Alumno alumno = new Alumno(22, "Juan", "perez",fechaDeIngreso,fechaDeNacimiento);
 		Curso curso = new Curso(3300, "pb2", "Tarde", 1, 277, true);
 		Nota nota = new Nota();
 		Cursada  cursada = new  Cursada (alumno,curso,nota);
@@ -33,8 +36,11 @@ public class test_Cursada {
 	
 	@Test
 	public void queSePuedaAsiganarUnValorEntreUnoYDiezaUnaNotaDeUnaCursada (){
-
-		Alumno alumno = new Alumno(22, "Juan", "perez");
+		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
+		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
+		
+		
+		Alumno alumno = new Alumno(22, "Juan", "perez",fechaDeIngreso,fechaDeNacimiento);
 		Curso curso = new Curso(3300, "pb2", "Tarde", 1, 277, true);
 		Nota nota = new Nota();
 		Cursada  cursada = new  Cursada (alumno,curso,nota);
