@@ -17,7 +17,7 @@ public class test_Cursada {
 		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
 
 		Alumno alumno = new Alumno(22, "Juan", "perez",fechaDeIngreso,fechaDeNacimiento);
-		Curso curso = new Curso(3300, "pb2", "Tarde", 1, 277, true);
+		Curso curso = new Curso(3300, "pb2", "Tarde", 1);
 		Nota nota = new Nota();
 		Cursada  cursada = new  Cursada (alumno,curso,nota);
 		
@@ -41,7 +41,7 @@ public class test_Cursada {
 		
 		
 		Alumno alumno = new Alumno(22, "Juan", "perez",fechaDeIngreso,fechaDeNacimiento);
-		Curso curso = new Curso(3300, "pb2", "Tarde", 1, 277, true);
+		Curso curso = new Curso(3300, "pb2", "Tarde", 1);
 		Nota nota = new Nota();
 		Cursada  cursada = new  Cursada (alumno,curso,nota);
 

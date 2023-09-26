@@ -47,9 +47,11 @@ public class test_Materia {
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		Aula aula = new Aula(numeroDeAula, 60);
 		
 		for(int i=0; i<cantidadCursos; i++) {
-			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+			Curso cursos = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1);
+			cursos.asignarAulaCurso(aula);
 			pb2.ingresarCurso(cursos);
 			//otro curso diferente
 			codigoCurso=1500;
@@ -72,10 +74,13 @@ public class test_Materia {
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		Aula aula=new Aula(numeroDeAula, 50);
+		
 		LocalDate fechaDeIngreso = LocalDate.parse("2023-08-04");
 		LocalDate fechaDeNacimiento = LocalDate.parse("2002-08-14");
 		
-		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1);
+		cursoPB2.asignarAulaCurso(aula);
 		pb2.ingresarCurso(cursoPB2);
 		
 		Profesor profesorPB2 = new Profesor("Monteagudo", "JuanMa", 31577809);
@@ -107,10 +112,13 @@ public class test_Materia {
 		Materia pb2 = new Materia ("programacion basica 2",2623);
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		Aula aulaMañana=new Aula(numeroDeAula, 50);
+		Aula aulaTarde=new Aula(numeroDeAula, 50);
 		
-		
-		Curso cursoPB2Tarde = new Curso(3300,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
-		Curso cursoPB2Mañana = new Curso(2829,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		Curso cursoPB2Tarde = new Curso(3300,pb2.getNombreMateria(),turno,1);
+		cursoPB2Tarde.asignarAulaCurso(aulaTarde);
+		Curso cursoPB2Mañana = new Curso(2829,pb2.getNombreMateria(),turno,1);
+		cursoPB2Mañana.asignarAulaCurso(aulaMañana);
 		
 		pb2.ingresarCurso(cursoPB2Mañana);
 		pb2.ingresarCurso(cursoPB2Tarde);
@@ -141,11 +149,14 @@ public class test_Materia {
 		Integer codigoCurso = 2006;
 		String turno = "mañana";
 		Integer numeroDeAula=206;
+		Aula aula=new Aula(numeroDeAula, 50);
+		
 		
 		//inicializacion de cursos
-		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1,numeroDeAula,true);
+		Curso cursoPB2 = new Curso(codigoCurso,pb2.getNombreMateria(),turno,1);
+		cursoPB2.asignarAulaCurso(aula);
 		pb2.ingresarCurso(cursoPB2);
-		Curso cursoMB = new Curso(codigoCurso,it2.getNombreMateria(),turno,1,numeroDeAula,true);
+		Curso cursoMB = new Curso(codigoCurso,it2.getNombreMateria(),turno,1);
 		it2.ingresarCurso(cursoMB);
 		
 		Profesor profesorPB2 = new Profesor("Monteagudo", "JuanMa", 31577809);

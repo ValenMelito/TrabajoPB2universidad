@@ -20,9 +20,9 @@ public class test_Profesores {
 	@Test
 	public void verificarQueNoPuedaUnirseADosMateriasConMismoHorario() {
 		Profesor profesor = new Profesor("Jerez", "Martin", 22222222);
-		Curso curso1 = new Curso(2326, "pb1", "Tarde", 1, 265, true);
-		Curso curso2 = new Curso(2327, "pb2", "Tarde", 1, 233, true);
-		Curso curso3 = new Curso(2329, "tw1", "Mañana", 1, 233, true);
+		Curso curso1 = new Curso(2326, "pb1", "Tarde", 1);
+		Curso curso2 = new Curso(2327, "pb2", "Tarde", 1);
+		Curso curso3 = new Curso(2329, "tw1", "Mañana", 1);
 		
 		profesor.ingresarCurso(curso1);
 		profesor.ingresarCurso(curso2);

@@ -60,6 +60,12 @@ public class Alumno {
 	public void setFechaDeIngreso(LocalDate fechaDeIngreso) {
 		this.fechaDeIngreso = fechaDeIngreso;
 	}
+
+	@Override
+	public String toString() {
+		return "Alumno [nombre=" + nombre + ", dni=" + dni + ", apellido=" + apellido + "]";
+	}
+	
 	
 	
 }

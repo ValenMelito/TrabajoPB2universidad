@@ -23,9 +23,9 @@ public class AsignarCursoAlumno {
 		this.curso=curso;
 		this.notaParcial1= new Nota();
 		this.notaParcial2= new Nota();
+		this.estado=estado.CURSANDO;
+		this.notaFinal= new Nota();
 	}
-	
-	
 	
 	
 	public Alumno getAlumno() {
@@ -44,10 +44,18 @@ public class AsignarCursoAlumno {
 		notaParcial2.asignarValor(valor);
 	}
 	
+	public Integer notaParcial1() {
+		return this.notaParcial1.getValor();
+	}
+	
+	public Integer notaParcial2() {
+		return this.notaParcial2.getValor();
+	}
+	
 	public boolean puedeDarRecuperatorio(){
 		boolean puedeRecuperar=true;
-		boolean ambasNotasSonDesaprobadas = this.notaParcial1.getValor()<4 && this.notaParcial2.getValor()<4;
-		boolean ambasNotasSonAprobadas = this.notaParcial1.getValor()>7 && this.notaParcial2.getValor()>7;
+		boolean ambasNotasSonDesaprobadas = notaParcial1()<4 && notaParcial2()<4;
+		boolean ambasNotasSonAprobadas = notaParcial1()>7 && notaParcial2()>7;
 		if(ambasNotasSonDesaprobadas==true || ambasNotasSonAprobadas==true) {
 			puedeRecuperar=false;
 		}
@@ -57,7 +65,7 @@ public class AsignarCursoAlumno {
 	public void recuperatorio(Integer valor){
 		boolean condicion=puedeDarRecuperatorio();
 		if(condicion==true && !recupero) {
-			if (this.notaParcial1.getValor()>this.notaParcial2.getValor()) {
+			if (notaParcial1()>notaParcial2()) {
 				calificarparcial2(valor);
 			}
 			else {
@@ -68,28 +76,32 @@ public class AsignarCursoAlumno {
 		}
 	}
 	
+	public estadoDeLaCursada getEstadoDeLaCursada() {
+		return this.estado;
+	}
+	
 	public estadoDeLaCursada setEstadoDeLaCursada(){
-		estado=null;
-		if(this.notaParcial1.getValor()<4 && this.notaParcial2.getValor()<4 || intentosFinal>=3) {
-			estado=estadoDeLaCursada.DESAPROBADO;
+		this.estado= estadoDeLaCursada.CURSANDO;
+		if((this.notaParcial1.getValor()<=3 || this.notaParcial2.getValor()<=3) || intentosFinal>=3) {
+			this.estado=estadoDeLaCursada.DESAPROBADO;
 		}
 		
 		else if(this.notaParcial1.getValor()>7 && this.notaParcial2.getValor()>7) {
 			estado=estadoDeLaCursada.PROMOCIONADO;
-			Integer calificacionFinal =(this.notaParcial1.getValor()+this.notaParcial2.getValor())/2;
-			notaFinal.asignarValor(calificacionFinal);
+			Integer calificacionFinal = (this.notaParcial1.getValor()+this.notaParcial2.getValor())/2;
+			this.notaFinal.asignarValor(calificacionFinal);
 		}
 		
 		else {
-			estado=estadoDeLaCursada.AFinal;
+			this.estado=estadoDeLaCursada.AFinal;
 		}
 		
-		return estado;		
+		return this.estado;		
 	}
 	
 	public boolean rendirFinal(){
 		boolean puedeRendirFinal=false;
-		if(estado==estado.AFinal){
+		if(this.estado==estadoDeLaCursada.AFinal){
 			puedeRendirFinal=true;
 		}
 		return puedeRendirFinal;
@@ -98,16 +110,22 @@ public class AsignarCursoAlumno {
 	public void calificarFinal(Integer valor) {
 		intentosFinal++;
 		if(rendirFinal()==true) {
-			notaFinal.asignarValor(valor);
-			if(notaFinal.getValor()>4) {
-				estado=estado.FinalAPROBADO;
+			this.notaFinal.asignarValor(valor);
+			if(this.notaFinal.getValor()>=4) {
+				this.estado=estadoDeLaCursada.FinalAPROBADO;
 			}
 		}
 	}
 	
 	public Integer getNotaFinal() {
-		return notaFinal.getValor();
+		return this.notaFinal.getValor();
 	}
+
+	@Override
+	public String toString() {
+		return "AsignarCursoAlumno [alumno=" + alumno + ", curso=" + curso + ", estado=" + estado + "]";
+	}
+	
 	
 	
 //	promociona= nota1>=7 && nota2>=7;

@@ -7,21 +7,20 @@ public class Curso {
 	private String nombreMateria;
 	private String turno;
 	private Integer cuatrimestre;
-	private Integer numeroDeAula;
+	private Aula aula;
 	private boolean estadoDelCurso;
 	private ArrayList<Alumno> arrayDeAlumnos = new ArrayList<>();
 	private ArrayList<Profesor> arrayDeProfesores = new ArrayList<>();
 	
 	
 	
-	public Curso(Integer codigoCurso, String nombreMateria,String turno, int cuatrimestre, Integer numeroDeAula, boolean estadoDelCurso) {
+	public Curso(Integer codigoCurso, String nombreMateria,String turno, int cuatrimestre) {
 		// TODO Auto-generated constructor stub
 		this.codigoCurso = codigoCurso;
 		this.nombreMateria = nombreMateria;
 		this.turno = turno;
 		this.cuatrimestre = cuatrimestre;
-		this.numeroDeAula = numeroDeAula;
-		this.estadoDelCurso = estadoDelCurso;
+		this.estadoDelCurso = false;
 	}
 
 
@@ -63,11 +62,13 @@ public class Curso {
 	}
 
 	public Integer getNumeroDeAula() {
-		return numeroDeAula;
+		return this.aula.getIdAula();
 	}
-
-	public void setNumeroDeAula(Integer numeroDeAula) {
-		this.numeroDeAula = numeroDeAula;
+	
+	public boolean asignarAulaCurso(Aula aula) {
+		this.aula=aula;
+		setEstadoDelCurso(true);
+		return true;
 	}
 
 	public void ingresarProfesor(Profesor profesor) {
@@ -84,16 +85,18 @@ public class Curso {
 		//TODO Auto-generated method stub
 		boolean pudoIngresar=false;
 		boolean duplicado=false;
+		if(this.aula.getCapacidadAula()>getArrayDeAlumnos().size()) {//si el aula esta llena ya no se puede ingresar
+			
+			if(alumnoRegistrado(alumnoAIngresar)==true) {
+				duplicado=true;
+			}
 		
-		if(alumnoRegistrado(alumnoAIngresar)==true) {
-			duplicado=true;
+			if(arrayDeAlumnos.size()==0 || !duplicado) {
+				this.arrayDeAlumnos.add(alumnoAIngresar);
+				pudoIngresar=true;
+			}
 		}
 		
-		if(arrayDeAlumnos.size()==0 || !duplicado) {
-			this.arrayDeAlumnos.add(alumnoAIngresar);
-			pudoIngresar=true;
-		}
-
 		return pudoIngresar;
 	}
 	
@@ -139,6 +142,15 @@ public class Curso {
 		}
 		return curso.getEstadoDelCurso();
 	}
+
+
+
+	@Override
+	public String toString() {
+		return "Curso [codigoCurso=" + codigoCurso + ", nombreMateria=" + nombreMateria + ", turno=" + turno + "]";
+	}
+	
+	
 
 	
 }

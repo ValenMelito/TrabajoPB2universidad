@@ -9,6 +9,22 @@ public class Aula {
 		this.idAula = idAula;
 		this.capacidadAula = capacidadAula;
 	}
+
+	public Integer getIdAula() {
+		return idAula;
+	}
+
+	public void setIdAula(Integer idAula) {
+		this.idAula = idAula;
+	}
+
+	public Integer getCapacidadAula() {
+		return capacidadAula;
+	}
+
+	public void setCapacidadAula(Integer capacidadAula) {
+		this.capacidadAula = capacidadAula;
+	}
 	
 	
 

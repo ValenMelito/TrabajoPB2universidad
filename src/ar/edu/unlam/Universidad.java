@@ -16,11 +16,6 @@ public class Universidad {
 
 	}
 	
-	//universidad.registrarAlumno y universidad.registrarMateria
-	public void evaluar(Integer dni, String codigoMateria, Integer nota) {
-		
-		
-	}
 	//registramos que no se registren dos personas con el mismo dni
 	public boolean ingresarAlumno(Alumno alumnoAIngresar) {
 		boolean pudoIngresar=false;
@@ -183,15 +178,25 @@ public class Universidad {
 	}
 	
 	
-	public void ingresarHistorialDeCursadas(Alumno alumno, Curso curso){
-		if(alumnoRegistrado(alumno)==true) {
-			AsignarCursoAlumno historialDeCursada = new AsignarCursoAlumno(alumno, curso);
-			arrayHistorialDeCursadas.add(historialDeCursada);
-		}
+	public void ingresarHistorialDeCursadas(AsignarCursoAlumno historialDeCursada){
+			this.arrayHistorialDeCursadas.add(historialDeCursada);
 	}
 	
 	public Integer totalDeHistorialGuardado() {
-		return arrayHistorialDeCursadas.size();
+		return this.arrayHistorialDeCursadas.size();
+	}
+	
+	private AsignarCursoAlumno buscarAlumnoYCursoAsosiados(Integer dniAlumno, Integer codigoCurso){
+		AsignarCursoAlumno alumnoAsignado=null;
+		//aca ya tengo el curso y el alumno entonces busco en el historial de la carrera con ambos datos
+			for(int i=0; i<totalDeHistorialGuardado(); i++){
+				if(this.arrayHistorialDeCursadas.get(i).getAlumno().getDni().equals(dniAlumno) && this.arrayHistorialDeCursadas.get(i).getCurso().getCodigoCurso().equals(codigoCurso)){
+					alumnoAsignado=this.arrayHistorialDeCursadas.get(i);
+				}
+			}
+		
+		return alumnoAsignado;
+		
 	}
 	
 	
@@ -203,29 +208,98 @@ public class Universidad {
 			Materia materia=buscarMateriaPorCodigo(idMateria);
 			ArrayList<Curso> arrayDeCursos=materia.getArrayDeCursos();
 			Curso cursoDeLaMateria=null;
-			Curso cursoEncontrado=null;
+			AsignarCursoAlumno cursoAlumnoEncontrado=null;
 			
 			
 			//aca busco el curso en el que se encuentra el alumno
 			for(int i=0; i<arrayDeCursos.size(); i++){
 				cursoDeLaMateria=arrayDeCursos.get(i);	
 				for(int j=0; j<cursoDeLaMateria.getArrayDeAlumnos().size(); j++){
-					if(cursoDeLaMateria.getArrayDeAlumnos().get(i).getDni().equals(dniAlumno)){
-						cursoEncontrado=cursoDeLaMateria;
+					if(cursoDeLaMateria.getArrayDeAlumnos().get(j).getDni().equals(dniAlumno)){
+						break;
 					}
 				}	
 			}
 			
-			//aca ya tengo el curso y el alumno entonces busco en el historial de la carrera con ambos datos
-			for(int i=0; i<totalDeHistorialGuardado(); i++){
-				if(arrayHistorialDeCursadas.get(i).getAlumno().getDni().equals(dniAlumno) && arrayHistorialDeCursadas.get(i).getCurso().getCodigoCurso().equals(cursoEncontrado.getCodigoCurso())){
-					notaFinal=arrayHistorialDeCursadas.get(i).getNotaFinal();
-				}
+			cursoAlumnoEncontrado=buscarAlumnoYCursoAsosiados(dniAlumno,cursoDeLaMateria.getCodigoCurso());
+			if(cursoAlumnoEncontrado!=null) {
+				notaFinal=cursoAlumnoEncontrado.getNotaFinal();
 			}
 			
 		}
 		return notaFinal;
 	}
 	
+	public ArrayList<Materia> obtenerMateriasAprobada(Integer dniAlumno){
+		ArrayList<Materia> materiasAprobadas = new ArrayList<Materia>();
+		Materia materiaAprobada;
+		ArrayList<Curso> arrayDeCursos=null;
+		Curso cursoDeLaMateria=null;
+		Integer codigoDeCursoEncontrado=null;
+		
+		estadoDeLaCursada estado= null;
+		
+		//busco en todas las materias dentro de todos los cursos a el alumno y verifico si el alumno esta aprobado o no 
+		for(int i=0; i<cantidadMaterias(); i++){
+			arrayDeCursos=this.arrayMaterias.get(i).getArrayDeCursos();
+			
+			for(int j=0; j<arrayDeCursos.size(); j++){
+				cursoDeLaMateria=arrayDeCursos.get(j);	
+				
+				for(int m=0; m<cursoDeLaMateria.getArrayDeAlumnos().size(); m++){//vemos el array de alumnos
+					Alumno alumno=cursoDeLaMateria.getArrayDeAlumnos().get(m);
+					
+					if(alumno.getDni().equals(dniAlumno)){//si encontramos al alumno en el curso guardamos el codigo de cursada para buscar en la clase asginaralumnocurso						
+						codigoDeCursoEncontrado=cursoDeLaMateria.getCodigoCurso();
+						
+						AsignarCursoAlumno alumnoAsignado=buscarAlumnoYCursoAsosiados(dniAlumno, codigoDeCursoEncontrado);
+						estado=alumnoAsignado.getEstadoDeLaCursada();
+						boolean condicionDeAprobado= (estado==estadoDeLaCursada.AFinal || estado==estadoDeLaCursada.FinalAPROBADO || estado==estadoDeLaCursada.PROMOCIONADO);
+							
+						if(alumnoAsignado!=null && condicionDeAprobado==true){				
+							materiaAprobada=this.arrayMaterias.get(i);
+							materiasAprobadas.add(materiaAprobada);//aca esta el problema hace todo el bucle bien pero no se guarda en el array
+						}
+					}
+				}			
+			}
+		}
+		
+		return materiasAprobadas;
+		
+	}
+	
+	public Integer obtenerPromedioDeNotas(Integer dniAlumno) {
+		ArrayList<Materia> materiasAprobadasPorAlumno=obtenerMateriasAprobada(dniAlumno);
+		Integer promedioDeNotas=0;
+		Integer cantidadDeMateriasConFinalAprobado=0;
+		ArrayList<Curso> CursoDeMateriasDondeAproboElAlumno=new ArrayList<Curso>();
+		
+		//buscamos el curso en el que esta el alumno
+		for(int i=0; i<materiasAprobadasPorAlumno.size();i++) {
+			for(int j=0; j<materiasAprobadasPorAlumno.get(i).getCantidadDeCursos(); j++){
+				for(int m=0; m<materiasAprobadasPorAlumno.get(i).getArrayDeCursos().get(j).getArrayDeAlumnos().size();m++) {
+					if(materiasAprobadasPorAlumno.get(i).getArrayDeCursos().get(j).getArrayDeAlumnos().get(m).getDni().equals(dniAlumno)){
+						CursoDeMateriasDondeAproboElAlumno.add(materiasAprobadasPorAlumno.get(i).getArrayDeCursos().get(j));
+					}
+				}
+				
+			}
+		}
+		System.out.println("vemos la materia: "+CursoDeMateriasDondeAproboElAlumno);
+		
+		for(int i=0;i<materiasAprobadasPorAlumno.size();i++) {
+			AsignarCursoAlumno alumnoAsignado=buscarAlumnoYCursoAsosiados(dniAlumno, CursoDeMateriasDondeAproboElAlumno.get(i).getCodigoCurso());
+			if(alumnoAsignado.getNotaFinal()>=4 && materiasAprobadasPorAlumno!=null) {
+				promedioDeNotas+=alumnoAsignado.getNotaFinal();
+				cantidadDeMateriasConFinalAprobado++;
+			}	
+		}
+		
+		promedioDeNotas=promedioDeNotas/cantidadDeMateriasConFinalAprobado;
+		
+		
+		return promedioDeNotas;
+	}
 	
 }
